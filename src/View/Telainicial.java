@@ -4,7 +4,12 @@
  */
 package View;
 
+import Controle.Operacoes;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import static java.lang.Double.valueOf;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -12,6 +17,8 @@ import static java.lang.Double.valueOf;
  */
 public class Telainicial extends javax.swing.JFrame {
     double valor1, valor2 , resultado = 0;
+    int operacao =0; // 0 nenhuma, 1 soma, 2 subtracao, 3 multiplicacao, 4 divisao
+    Operacoes control = new Operacoes();
     /**
      * Creates new form Telainicial
      */
@@ -133,6 +140,11 @@ public class Telainicial extends javax.swing.JFrame {
 
         btnresultado.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btnresultado.setText("=");
+        btnresultado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnresultadoMouseClicked(evt);
+            }
+        });
         btnresultado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnresultadoActionPerformed(evt);
@@ -172,6 +184,11 @@ public class Telainicial extends javax.swing.JFrame {
         btn6.setBounds(300, 230, 73, 31);
 
         txttela.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txttela.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txttelaKeyPressed(evt);
+            }
+        });
         getContentPane().add(txttela);
         txttela.setBounds(100, 60, 500, 60);
 
@@ -270,38 +287,269 @@ public class Telainicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btn9ActionPerformed
 
     private void btnsomaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsomaActionPerformed
-        boolean controle = true;
+       
+        if(txttela.getText().isEmpty()){
+            valor1=0;
+            JOptionPane.showMessageDialog(null,"Valor nulo");
+        }
         
-            valor1 = Double.parseDouble(txttela.getText());
+        valor1 = Double.parseDouble(txttela.getText());
+        operacao = 1;
+        
+        
+        lbltela.setText(Double.toString(valor1)+ " + ");
+        
+        txttela.setText("");
            
-            lbltela.setText(lbltela.getText()+valor1);
-            resultado = resultado+ valor1;
-            lbltela.setText(lbltela.getText() + "+");
-            txttela.setText("");
-           
+        resultado = control.soma(valor1);
+        lbltela.setText(Double.toString(resultado));
+        
+        txttela.setText("");
+          
     }//GEN-LAST:event_btnsomaActionPerformed
 
     private void btnmultiplicacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmultiplicacaoActionPerformed
-        txttela.setText(txttela.getText() + "*");
+        
+        if(txttela.getText().isEmpty()){
+            valor1=0;
+            JOptionPane.showMessageDialog(null,"Valor nulo");
+        }
+        valor1 = Double.parseDouble(txttela.getText());
+        operacao = 3;
+            
+        lbltela.setText(Double.toString(valor1)+ " * ");
+        
+        txttela.setText("");
+           
+        resultado = control.multiplicacao(valor1);
+        lbltela.setText(Double.toString(resultado));
+        
+        txttela.setText("");
     }//GEN-LAST:event_btnmultiplicacaoActionPerformed
 
     private void btnsubtracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsubtracaoActionPerformed
-        txttela.setText(txttela.getText() + "-");
+        
+        if(txttela.getText().isEmpty()){
+            valor1=0;
+            JOptionPane.showMessageDialog(null,"Valor nulo");
+        }
+        
+        
+        valor1 = Double.parseDouble(txttela.getText());
+        operacao = 2;
+        
+            
+        lbltela.setText(Double.toString(valor1)+ " - ");
+        
+        txttela.setText("");
+           
+        resultado = control.subtracao(valor1);
+        lbltela.setText(Double.toString(resultado));
+        
+        txttela.setText("");
     }//GEN-LAST:event_btnsubtracaoActionPerformed
 
     private void btndivisaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndivisaoActionPerformed
-        txttela.setText(txttela.getText() + "/");
+        
+        if(txttela.getText().isEmpty()){
+            valor1=0;
+            JOptionPane.showMessageDialog(null,"Valor nulo");
+        }
+        
+        valor1 = Double.parseDouble(txttela.getText());
+        operacao = 4;
+            
+        lbltela.setText(Double.toString(valor1)+ " / ");
+        
+        txttela.setText("");
+           
+        resultado = control.divisao(valor1);
+        lbltela.setText(Double.toString(resultado));
+        
+        txttela.setText("");
     }//GEN-LAST:event_btndivisaoActionPerformed
 
-    private void btnresultadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnresultadoActionPerformed
-        lbltela.setText(toString(resultado));
-        //txttela.setText(txttela.getText() + "=");
-    }//GEN-LAST:event_btnresultadoActionPerformed
-
     private void btnceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnceActionPerformed
+        resultado = control.zerando();
         txttela.setText("");
         lbltela.setText("");
     }//GEN-LAST:event_btnceActionPerformed
+
+    private void txttelaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txttelaKeyPressed
+        
+        if(evt.getKeyCode() == KeyEvent.VK_PLUS){
+            if(txttela.getText().isEmpty()){
+                valor1=0;
+                JOptionPane.showMessageDialog(null,"Valor nulo");
+            }
+        
+            valor1 = Double.parseDouble(txttela.getText());
+            operacao = 1;
+
+
+            lbltela.setText(Double.toString(valor1)+ " + ");
+
+            txttela.setText("");
+
+            resultado = control.soma(valor1);
+            lbltela.setText(Double.toString(resultado));
+
+            txttela.setText("");
+            
+        }
+        if(evt.getKeyCode() == KeyEvent.VK_MINUS){
+            if(txttela.getText().isEmpty()){
+                valor1=0;
+                JOptionPane.showMessageDialog(null,"Valor nulo");
+            }
+        
+        
+            valor1 = Double.parseDouble(txttela.getText());
+            operacao = 2;
+
+
+            lbltela.setText(Double.toString(valor1)+ " - ");
+
+            txttela.setText("");
+
+            resultado = control.subtracao(valor1);
+            lbltela.setText(Double.toString(resultado));
+
+            txttela.setText("");
+        }
+        if(evt.getKeyCode()== KeyEvent.VK_ASTERISK){
+            if(txttela.getText().isEmpty()){
+                valor1=0;
+                JOptionPane.showMessageDialog(null,"Valor nulo");
+            }
+            valor1 = Double.parseDouble(txttela.getText());
+            operacao = 3;
+
+            lbltela.setText(Double.toString(valor1)+ " * ");
+
+            txttela.setText("");
+
+            resultado = control.multiplicacao(valor1);
+            lbltela.setText(Double.toString(resultado));
+
+            txttela.setText("");
+        }
+        if(evt.getKeyCode() == KeyEvent.VK_SLASH){
+            if(txttela.getText().isEmpty()){
+                valor1=0;
+                JOptionPane.showMessageDialog(null,"Valor nulo");
+            }
+        
+            valor1 = Double.parseDouble(txttela.getText());
+            operacao = 4;
+
+            lbltela.setText(Double.toString(valor1)+ " / ");
+
+            txttela.setText("");
+
+            resultado = control.divisao(valor1);
+            lbltela.setText(Double.toString(resultado));
+
+            txttela.setText("");
+        }
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            if(txttela.getText().isEmpty()){
+                valor1=0;
+                JOptionPane.showMessageDialog(null,"Valor nulo");
+            }
+        
+            valor1 = Double.parseDouble(txttela.getText());
+            if(operacao == 1){
+                resultado =  control.soma(valor1);
+                lbltela.setText(Double.toString(resultado));
+            }
+            if(operacao == 2){
+                resultado =  control.subtracao(valor1);
+                lbltela.setText(Double.toString(resultado));
+            }
+            if(operacao == 3){
+                resultado =  control.multiplicacao(valor1);
+                lbltela.setText(Double.toString(resultado));
+            }
+            if(operacao == 4){
+                if(valor1 == 0 ){
+                    JOptionPane.showMessageDialog(null, "impossivel divisao por 0");
+                }else{
+                    resultado =  control.divisao(valor1);
+                    lbltela.setText(Double.toString(resultado));
+                }
+
+            }
+            txttela.setText("");
+        }
+    }//GEN-LAST:event_txttelaKeyPressed
+
+    private void btnresultadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnresultadoActionPerformed
+        /*
+        if(txttela.getText().isEmpty()){
+            valor1=0;
+            JOptionPane.showMessageDialog(null,"Valor nulo");
+        }
+
+        valor1 = Double.parseDouble(txttela.getText());
+        lbltela.setText(Double.toString(valor1));
+        if(operacao == 1){
+            resultado =  control.soma(valor1);
+            lbltela.setText(Double.toString(resultado));
+        }
+        if(operacao == 2){
+            resultado =  control.subtracao(valor1);
+            lbltela.setText(Double.toString(resultado));
+        }
+        if(operacao == 3){
+            resultado =  control.multiplicacao(valor1);
+            lbltela.setText(Double.toString(resultado));
+        }
+        if(operacao == 4){
+            if(valor1 == 0 ){
+                JOptionPane.showMessageDialog(null, "impossivel divisao por 0");
+            }else{
+                resultado =  control.divisao(valor1);
+                lbltela.setText(Double.toString(resultado));
+            }
+
+        }
+        lbltela.setText(Double.toString(valor1));
+        txttela.setText(""); */
+    }//GEN-LAST:event_btnresultadoActionPerformed
+
+    private void btnresultadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnresultadoMouseClicked
+        if(txttela.getText().isEmpty()){
+            valor1=0;
+            JOptionPane.showMessageDialog(null,"Valor nulo");
+        }
+
+        valor1 = Double.parseDouble(txttela.getText());
+        lbltela.setText(Double.toString(valor1));
+        if(operacao == 1){
+            resultado =  control.soma(valor1);
+            lbltela.setText(Double.toString(resultado));
+        }
+        if(operacao == 2){
+            resultado =  control.subtracao(valor1);
+            lbltela.setText(Double.toString(resultado));
+        }
+        if(operacao == 3){
+            resultado =  control.multiplicacao(valor1);
+            lbltela.setText(Double.toString(resultado));
+        }
+        if(operacao == 4){
+            if(valor1 == 0 ){
+                JOptionPane.showMessageDialog(null, "impossivel divisao por 0");
+            }else{
+                resultado =  control.divisao(valor1);
+                lbltela.setText(Double.toString(resultado));
+            }
+
+        }
+       // lbltela.setText(Double.toString(valor1));
+        txttela.setText("");
+    }//GEN-LAST:event_btnresultadoMouseClicked
 
     /**
      * @param args the command line arguments
